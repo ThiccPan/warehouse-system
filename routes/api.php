@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -27,4 +28,14 @@ Route::middleware('auth:sanctum')
         Route::post('', [CategoryController::class, 'insert']);
         Route::put('/{id}', [CategoryController::class, 'update']);
         Route::delete('/{id}', [CategoryController::class, 'delete']);
+    });
+
+Route::middleware('auth:sanctum')
+    ->prefix('items')
+    ->group(function () {
+        Route::get('', [ItemController::class, 'index']);
+        Route::get('/{id}', [ItemController::class, 'show']);
+        Route::post('', [ItemController::class, 'insert']);
+        Route::put('/{id}', [ItemController::class, 'update']);
+        Route::delete('/{id}', [ItemController::class, 'delete']);
     });
