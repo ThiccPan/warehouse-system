@@ -42,7 +42,7 @@ class UserController extends Controller
                 'code' => 422,
                 'message' => 'input does not match requirement',
                 'error' => $e->errors()
-            ], 500);
+            ], 422);
         }
         // catch other exception
         catch (Exception $e) {
@@ -96,7 +96,7 @@ class UserController extends Controller
                 'code' => 422,
                 'message' => 'input does not match requirement',
                 'error' => $e->errors()
-            ], 500);
+            ], 422);
         }
         // catch other exception
         catch (Exception $e) {
@@ -121,7 +121,7 @@ class UserController extends Controller
             $user = Auth::user();
             if (!$user) {
                 return response()->json([
-                    'code' => 500,
+                    'code' => 400,
                     'message' => 'already logged out',
                     'error' => ''
                 ], 400);
