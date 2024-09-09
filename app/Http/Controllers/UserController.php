@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -139,6 +141,32 @@ class UserController extends Controller
                 'code' => 500,
                 'message' => 'failed to logout',
                 'error' => $e
+            ], 500);
+        }
+    }
+
+    public function getUserMutation($id): JsonResponse
+    {
+        try {
+            $user = User::findOrFail($id);
+            return response()->json([
+                'code' => 200,
+                'message' => 'fetching user mutations history success',
+                'data' => [
+                    'mutations' => $user->mutations
+                ]
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'code' => 404,
+                'message' => 'user not found',
+                'error' => $e->getMessage()
+            ], 404);
+        } catch (Exception $e) {
+            return response()->json([
+                'code' => 500,
+                'message' => 'failed fetching user mutations history',
+                'error' => $e->getMessage()
             ], 500);
         }
     }
