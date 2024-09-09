@@ -14,6 +14,9 @@ Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logo
 Route::middleware('auth:sanctum')
     ->prefix('/users')
     ->group(function () {
+        Route::get('', [UserController::class, 'index']);
+        Route::put('', [UserController::class, 'updateProfile']);
+        Route::delete('', [UserController::class, 'deleteProfile']);
         Route::get('/{id}/mutations', [UserController::class, 'getUserMutation']);
     });
 

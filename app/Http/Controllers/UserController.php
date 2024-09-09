@@ -145,6 +145,88 @@ class UserController extends Controller
         }
     }
 
+    public function index(): JsonResponse
+    {
+        try {
+            $users = User::all();
+            return response()->json([
+                'code' => 200,
+                'message' => 'getting all user successfull',
+                'data' => $users
+            ], 200);
+        } catch (Exception $e) {
+            info($e);
+            return response()->json([
+                'code' => 500,
+                'message' => 'failed to fetch all user',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function updateProfile(Request $request): JsonResponse
+    {
+        try {
+            $user = Auth::user();
+            $validReq = $request->validate([
+                'name' => ['max:100'],
+                'email' => ['email', 'unique:users,email'],
+                'password' => ['min:8', 'alpha_num']
+            ]);
+            if ($newName = $validReq['name'] ?? null) {
+                $user->name = $newName;
+            }
+            if ($newEmail = $validReq['email'] ?? null) {
+                $user->email = $newEmail;
+            }
+            if ($newPass = $validReq['password'] ?? null) {
+                $user->password = $newPass;
+            }
+            $user->save();
+            return response()->json([
+                'code' => 200,
+                'message' => 'update user successfull',
+                'data' => $user
+            ], 200);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'code' => 422,
+                'message' => 'input does not match requirement',
+                'error' => $e->errors()
+            ], 422);
+        } catch (Exception $e) {
+            info($e);
+            return response()->json([
+                'code' => 500,
+                'message' => 'failed to update user',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function deleteProfile()
+    {
+        try {
+            $user = Auth::user();
+            // delete token
+            $user->tokens()->delete();
+            // delete profile
+            $user->delete();
+            return response()->json([
+                'code' => 200,
+                'message' => 'delete user successfull',
+                'data' => $user
+            ], 200);
+        } catch (Exception $e) {
+            info($e);
+            return response()->json([
+                'code' => 500,
+                'message' => 'failed to delete user',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     public function getUserMutation($id): JsonResponse
     {
         try {
