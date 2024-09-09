@@ -30,7 +30,7 @@ class CategoryController extends Controller
             info($e);
             return response()->json([
                 'code' => 500,
-                'message' => 'failed to update category',
+                'message' => 'failed to get all category',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -49,7 +49,7 @@ class CategoryController extends Controller
 
             return response()->json([
                 'code' => 200,
-                'message' => 'getting all category successfull',
+                'message' => 'getting category successfull',
                 'data' => $category
             ], 200);
         } catch (ModelNotFoundException $e) {
@@ -63,7 +63,7 @@ class CategoryController extends Controller
             info($e);
             return response()->json([
                 'code' => 500,
-                'message' => 'failed to update category',
+                'message' => 'failed to get category',
                 'error' => $e->getMessage()
             ], 500);
         }

@@ -49,7 +49,7 @@ class ItemController extends Controller
 
             return response()->json([
                 'code' => 200,
-                'message' => 'getting all item successfull',
+                'message' => 'getting item successfull',
                 'data' => $category
             ], 200);
         } catch (ModelNotFoundException $e) {
@@ -161,14 +161,14 @@ class ItemController extends Controller
             info($e);
             return response()->json([
                 'code' => 404,
-                'message' => 'category not found',
+                'message' => 'item not found',
                 'error' => $e->getMessage()
             ], 404);
         } catch (Exception $e) {
             info($e);
             return response()->json([
                 'code' => 500,
-                'message' => 'failed to update category',
+                'message' => 'failed to update item',
                 'error' => $e->getMessage()
             ], 500);
         }

@@ -31,7 +31,7 @@ class LocationController extends Controller
             info($e);
             return response()->json([
                 'code' => 500,
-                'message' => 'failed to update location',
+                'message' => 'failed to get all location',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -50,7 +50,7 @@ class LocationController extends Controller
 
             return response()->json([
                 'code' => 200,
-                'message' => 'getting all location successfull',
+                'message' => 'getting location successfull',
                 'data' => $location
             ], 200);
         } catch (ModelNotFoundException $e) {
@@ -64,7 +64,7 @@ class LocationController extends Controller
             info($e);
             return response()->json([
                 'code' => 500,
-                'message' => 'failed to update location',
+                'message' => 'failed to get location',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -101,7 +101,7 @@ class LocationController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'code' => 500,
-                'message' => 'failed to logout',
+                'message' => 'failed to add new location',
                 'error' => $e
             ], 500);
         }
