@@ -206,4 +206,30 @@ class ItemController extends Controller
             ], 500);
         }
     }
+
+    public function getItemMutation($id): JsonResponse
+    {
+        try {
+            $item = Item::findOrFail($id);
+            return response()->json([
+                'code' => 200,
+                'message' => 'fetching item mutations history success',
+                'data' => [
+                    'mutations' => $item->mutations
+                ]
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'code' => 404,
+                'message' => 'item not found',
+                'error' => $e->getMessage()
+            ], 404);
+        } catch (Exception $e) {
+            return response()->json([
+                'code' => 500,
+                'message' => 'failed fetching item mutations history',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

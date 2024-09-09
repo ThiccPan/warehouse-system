@@ -43,11 +43,18 @@ class Item extends Model
         ];
     }
 
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function location() {
+    public function location()
+    {
         return $this->belongsTo(Location::class);
+    }
+
+    public function mutations()
+    {
+        return $this->hasMany(Mutation::class);
     }
 }
