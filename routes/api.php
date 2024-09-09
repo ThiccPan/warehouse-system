@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\MutationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,4 +39,14 @@ Route::middleware('auth:sanctum')
         Route::post('', [ItemController::class, 'insert']);
         Route::put('/{id}', [ItemController::class, 'update']);
         Route::delete('/{id}', [ItemController::class, 'delete']);
+    });
+
+Route::middleware('auth:sanctum')
+    ->prefix('mutations')
+    ->group(function () {
+        Route::get('', [MutationController::class, 'index']);
+        Route::get('/{id}', [MutationController::class, 'show']);
+        Route::post('', [MutationController::class, 'insert']);
+        Route::put('/{id}', [MutationController::class, 'update']);
+        Route::delete('/{id}', [MutationController::class, 'delete']);
     });

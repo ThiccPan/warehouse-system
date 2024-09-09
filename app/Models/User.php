@@ -45,4 +45,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function mutations()
+    {
+        return $this->hasMany(Mutation::class);
+    }
 }
