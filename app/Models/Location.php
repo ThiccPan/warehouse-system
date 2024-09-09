@@ -25,4 +25,8 @@ class Location extends Model
      * @var array<int, string>
      */
     protected $hidden = [];
+
+    public function items() {
+        $this->hasMany(Item::class);
+    }
 }

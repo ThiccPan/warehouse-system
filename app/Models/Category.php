@@ -24,4 +24,8 @@ class Category extends Model
      * @var array<int, string>
      */
     protected $hidden = [];
+
+    public function items() {
+        return $this->hasMany(Item::class);
+    }
 }
