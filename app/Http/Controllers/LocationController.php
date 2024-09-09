@@ -184,4 +184,30 @@ class LocationController extends Controller
             ], 500);
         }
     }
+
+    public function getLocationItems($id)
+    {
+        try {
+            $location = Location::findOrFail($id);
+            return response()->json([
+                'code' => 200,
+                'message' => 'getting location items successfull',
+                'data' => $location->items
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            info($e);
+            return response()->json([
+                'code' => 404,
+                'message' => 'location not found',
+                'error' => $e->getMessage()
+            ], 404);
+        } catch (Exception $e) {
+            info($e);
+            return response()->json([
+                'code' => 500,
+                'message' => 'failed to get location items',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

@@ -181,4 +181,30 @@ class CategoryController extends Controller
             ], 500);
         }
     }
+
+    public function getCategoryItems($id)
+    {
+        try {
+            $category = Category::findOrFail($id);
+            return response()->json([
+                'code' => 200,
+                'message' => 'getting category items successfull',
+                'data' => $category->items
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            info($e);
+            return response()->json([
+                'code' => 404,
+                'message' => 'category not found',
+                'error' => $e->getMessage()
+            ], 404);
+        } catch (Exception $e) {
+            info($e);
+            return response()->json([
+                'code' => 500,
+                'message' => 'failed to get category items',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

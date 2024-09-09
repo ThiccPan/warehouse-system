@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')
         Route::post('', [LocationController::class, 'insert']);
         Route::put('/{id}', [LocationController::class, 'update']);
         Route::delete('/{id}', [LocationController::class, 'delete']);
+        Route::get('/{id}/items', [LocationController::class, 'getLocationItems']);
     });
 
 Route::middleware('auth:sanctum')
@@ -38,6 +39,7 @@ Route::middleware('auth:sanctum')
         Route::post('', [CategoryController::class, 'insert']);
         Route::put('/{id}', [CategoryController::class, 'update']);
         Route::delete('/{id}', [CategoryController::class, 'delete']);
+        Route::get('/{id}/items', [CategoryController::class, 'getCategoryItems']);
     });
 
 Route::middleware('auth:sanctum')
