@@ -12,6 +12,12 @@ Route::post('/login', [UserController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);
 
 Route::middleware('auth:sanctum')
+    ->prefix('/users')
+    ->group(function () {
+        Route::get('/{id}/mutations', [UserController::class, 'getUserMutation']);
+    });
+
+Route::middleware('auth:sanctum')
     ->prefix('/location')
     ->group(function () {
         Route::get('', [LocationController::class, 'index']);
@@ -39,6 +45,7 @@ Route::middleware('auth:sanctum')
         Route::post('', [ItemController::class, 'insert']);
         Route::put('/{id}', [ItemController::class, 'update']);
         Route::delete('/{id}', [ItemController::class, 'delete']);
+        Route::get('/{id}/mutations', [ItemController::class, 'getItemMutation']);
     });
 
 Route::middleware('auth:sanctum')
