@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\MutationTypes;
 use App\Models\Item;
 use App\Models\Mutation;
+use DB;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -14,14 +15,31 @@ use Illuminate\Validation\ValidationException;
 
 class MutationController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         try {
-            $mutations = Mutation::all();
+            // tanggal
+            // jenis mutasi
+            $searchTypeQuery = $request->query('type');
+            $searchDateQuery = $request->query('date');
+            info($request->query);
+            $mutations = [];
+            $mutations = Mutation::with('item');
+            if (count($request->query()) == 0) {
+                $mutations->all();
+            }
+            if ($searchTypeQuery != null) {
+                info('searching');
+                $mutations = $mutations->where('type', 'LIKE', '%' . $searchTypeQuery . '%');
+            }
+            if ($searchDateQuery != null) {
+                info($searchDateQuery);
+                $mutations = $mutations->whereDate('date', '=', $searchDateQuery);
+            }
             return response()->json([
                 'code' => 200,
                 'message' => 'getting all mutation successfull',
-                'data' => $mutations
+                'data' => $mutations->get()
             ], 200);
         } catch (Exception $e) {
             return response()->json([
