@@ -17,10 +17,19 @@ class ItemController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         try {
-            $items = Item::all();
+            $searchNameQuery = $request->query('name');
+            info($request->query());
+            $items = Item::with(['location', 'category']);
+            if (count($request->query()) == 0) {
+                $items = Item::all();
+            }
+            if ($searchNameQuery != null) {
+                info('searching');
+                $items = $items->where('name', 'LIKE', '%' . $searchNameQuery . '%')->get();
+            }
             return response()->json([
                 'code' => 200,
                 'message' => 'getting all item successfull',
